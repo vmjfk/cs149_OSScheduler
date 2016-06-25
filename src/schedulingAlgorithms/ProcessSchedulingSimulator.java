@@ -368,6 +368,7 @@ public class ProcessSchedulingSimulator {
         float floatVal;
         int priority;
         Task[] tasks = new Task[NUM_OF_TASKS];
+        Set<Task> taskSet = new HashSet<Task>();
         Random random = new Random(seed);
         for(int i = 0; i < NUM_OF_TASKS; i++) {
             int length = String.valueOf(i).length();
@@ -382,8 +383,9 @@ public class ProcessSchedulingSimulator {
             runTime = random.nextInt(RUNTIME_MAX) + floatVal + 1;
             priority = random.nextInt(PRIORITY_MAX) + 1;
             Task task = new Task(name, arrivalTime, runTime, priority);
-            tasks[i] = task;
+            taskSet.add(task);
         }
+        taskSet.toArray(tasks);
         //Comparator for sorting the array by arrival time
         Comparator<Task> c = new Comparator<Task>() {
             public int compare(Task t1, Task t2) {
@@ -514,7 +516,16 @@ class Task implements Cloneable{
             return null;
         }
     }
-
+    
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Task){
+            Task otherTask = (Task) o;
+            return name.equals(otherTask.getName());
+        }
+        return false;
+    }
+    @Override
     public String toString() {
         return "Process: " + name + "\n\tArrival Time = " + arrivalTime +
                 "\n\tExpected Run Time = " + runTime + "\n\tPriority = " + priority
