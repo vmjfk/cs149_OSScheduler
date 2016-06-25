@@ -15,6 +15,51 @@ public class ProcessSchedulingSimulator {
     private final static int NUM_OF_TASKS = 100;
 
     /**
+     * main
+     * @param args
+     */
+    public static void main(String[] args) {
+        ProcessSchedulingSimulator pss = new ProcessSchedulingSimulator();
+        Scanner input = new Scanner(System.in);
+        int option = 1;
+        while(option >= 1 && option <= 6) {
+            pss.printMenuOptions();
+            option = input.nextInt();
+            switch(option) {
+                case 1: pss.fcfs();
+                break;
+                case 2: pss.sjf();
+                break;
+                case 3: pss.srt();
+                break;
+                case 4: pss.rr();
+                break;
+                case 5: pss.hpfP();
+                break;
+                case 6: pss.hpfNP();
+                break;
+                default: option = 7;
+                break;
+            }
+        }
+        input.close();
+    }
+    
+    private void printMenuOptions()
+    {
+    	System.out.println(
+    			"Please choose the number of the " +
+                "process scheduling algorithm you would like to run:\n" +
+                "(1) First Come First Served\n" + 
+                "(2) Shortest Job First\n" +
+                "(3) Shortest Remaining Time\n" +
+                "(4) Round Robin\n" +
+                "(5) Highest Priority First (Preemptive)\n" +
+                "(6) Highest Priority First (non-preemptive)" + "\n(7) Exit"
+    	);	
+    }
+    
+    /**
      * First come first served (non-preemptive)
      */
     private void fcfs() {
@@ -416,43 +461,6 @@ public class ProcessSchedulingSimulator {
         }
         System.out.println();//add new line after time chart
     }
-
-    /**
-     * main
-     * @param args
-     */
-    public static void main(String[] args) {
-        ProcessSchedulingSimulator pss = new ProcessSchedulingSimulator();
-        Scanner input = new Scanner(System.in);
-        int option = 1;
-        while(option >= 1 && option <= 6) {
-            System.out.println("Please choose the number of the " +
-                    "process scheduling algorithm you would like to run:" +
-                    "\n(1) First Come First Served" + "\n(2) Shortest Job First" +
-                    "\n(3) Shortest Remaining Time" + "\n(4) Round Robin" +
-                    "\n(5) Highest Priority First (Preemptive)" +
-                    "\n(6) Highest Priority First (non-preemptive)" + "\n(7) Exit");
-            option = input.nextInt();
-            switch(option) {
-                case 1: pss.fcfs();
-                break;
-                case 2: pss.sjf();
-                break;
-                case 3: pss.srt();
-                break;
-                case 4: pss.rr();
-                break;
-                case 5: pss.hpfP();
-                break;
-                case 6: pss.hpfNP();
-                break;
-                default: option = 7;
-                break;
-            }
-        }
-        input.close();
-    }
-
 }
 
 /**
