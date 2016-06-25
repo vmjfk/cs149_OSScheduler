@@ -1,11 +1,11 @@
 package schedulingAlgorithms;
 import java.util.*;
 /**
- *COPYRIGHT (C) 2016 CS149_1 Group _______. All Rights Reserved.
+ *COPYRIGHT (C) 2016 CS149_1 Group forkQueue. All Rights Reserved.
  * The process scheduling simulator uses various algorithms to
  * simulate process scheduling
  * Solves CS149 Homework#2
- * @author Tyler Jones,______,______....
+ * @author Tyler Jones, Scot Matson, ______....
  */
 public class ProcessSchedulingSimulator {
     //Declare all final variables
@@ -450,6 +450,7 @@ public class ProcessSchedulingSimulator {
                 break;
             }
         }
+        input.close();
     }
 
 }
