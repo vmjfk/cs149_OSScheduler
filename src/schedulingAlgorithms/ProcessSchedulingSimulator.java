@@ -33,7 +33,8 @@ public class ProcessSchedulingSimulator {
                 	fcfs.runNonPreemptive();
                 	break;
                 case 2: 
-                	new ShortestJobFirst(processQueue);
+                	ShortestJobFirst sjf = new ShortestJobFirst(processQueue);
+                	sjf.runNonPreemptive();
                 	break;
                 case 3: 
                 	new ShortestRemainingTime();
