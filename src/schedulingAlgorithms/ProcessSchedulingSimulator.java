@@ -22,31 +22,30 @@ public class ProcessSchedulingSimulator {
     public static void main(String[] args) {
         ProcessSchedulingSimulator pss = new ProcessSchedulingSimulator();
         Scanner input = new Scanner(System.in);
-        ProcessQueue processQueue = new ProcessQueue(QUANTA_MAX, RUNTIME_MAX, PRIORITY_MAX, NUM_OF_TASKS);
         int option = 1;
         while(option >= 1 && option <= 6) {
             pss.printMenuOptions();
             option = input.nextInt();
-            switch(option) {
-                case 1: 
-                	FirstComeFirstServe fcfs = new FirstComeFirstServe(processQueue);
-                	fcfs.runNonPreemptive();
+            ProcessQueue processQueue = new ProcessQueue(QUANTA_MAX, RUNTIME_MAX, PRIORITY_MAX, NUM_OF_TASKS);
+            switch(option) 
+            {
+                case 1:
+                	new FirstComeFirstServe(processQueue).runNonPreemptive();
                 	break;
-                case 2: 
-                	ShortestJobFirst sjf = new ShortestJobFirst(processQueue);
-                	sjf.runNonPreemptive();
+                case 2:
+                	new ShortestJobFirst(processQueue).runNonPreemptive();
                 	break;
-                case 3: 
-                	new ShortestRemainingTime();
+                case 3:
+                	new ShortestRemainingTime(processQueue).runPreemptive();
                 	break;
-                case 4: 
+                case 4:
                 	pss.rr(processQueue);
                 	break;
-                case 5: 
-                	new HighestPriorityFirst();
+                case 5:
+                	new HighestPriorityFirst(processQueue).runNonPreemptive();
                 	break;
-                case 6: 
-                	new HighestPriorityFirst();
+                case 6:
+                	new HighestPriorityFirst(processQueue).runPreemptive();
                 	break;
                 default: 
                 	option = 7;
