@@ -95,7 +95,7 @@ public class ProcessSchedulingSimulator {
             ArrayList<Task> scheduledTasks = new ArrayList<>();
 
             //For each of 5 runs create a new process queue
-            Task[] tasks = processQueue.generate(i);
+            Task[] tasks = processQueue.generateProcesses(i);
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
             //Queue for ready processes ordered by run time with ties broken by arrival time
             PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() {
@@ -219,7 +219,7 @@ public class ProcessSchedulingSimulator {
             Map<String, Float> remainingRunTimes = new HashMap<>();
 
             //For each of 5 runs create a new process queue
-            Task[] tasks = processQueue.generate(i);
+            Task[] tasks = processQueue.generateProcesses(i);
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
 
             while(!taskList.isEmpty() || !readyQueue.isEmpty() || !waitingQueue.isEmpty()) {
