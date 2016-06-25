@@ -50,8 +50,7 @@ public class ProcessQueue {
             taskSet.add(task);
         }
         
-        taskSet.toArray(tasks);
-        return sortByArrivalTime(tasks);
+        return taskSet.toArray(tasks);
     }
     
     /**
@@ -78,7 +77,7 @@ public class ProcessQueue {
     * @param tasks (Task Array) : An Array of tasks.
     * @return tasks (Task Array) : A sorted Array of tasks.
     */
-   public Task[] sortByBurstTime(Task[] tasks) 
+   public Task[] sortByRunTime(Task[] tasks) 
    {
        //Comparator for sorting the array by burst time
        Comparator<Task> c = new Comparator<Task>() {

@@ -66,14 +66,11 @@ public class ShortestRemainingTime {
             {
                 public int compare(Task t1, Task t2) 
                 {
-                    if (t1.getRunTime() == t2.getRunTime()) 
-                    {
-                        return (t1.getArrivalTime() < t2.getArrivalTime()) ? -1 : 1;
-                    } 
-                    else 
-                    {
-                        return (t1.getRunTime() < t2.getRunTime()) ? -1 : 1;
-                    }
+                	int retval = t1.compareRunTime(t2.getRunTime());
+                	if (retval == 0) {
+                		return (t1.compareArrivalTime(t2.getArrivalTime()));
+                	} 
+                    return retval;                         
                 }
             });
 
