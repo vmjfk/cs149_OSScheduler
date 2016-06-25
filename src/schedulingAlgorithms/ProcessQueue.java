@@ -23,11 +23,11 @@ public class ProcessQueue {
 	}
 	
     /**
-     * generateProcessQueue generates an array of processes and sorts
-     * them by arrival time.
-     * @return taskList, an array of randomly generated processes
+     * Generates an array of processes
+     * 
+     * @return tasks (Task Array) : Randomly generated processes.
      */
-    public Task[] generate(int seed) {
+    public Task[] generateProcesses(int seed) {
         int arrivalTime;
         float runTime;
         float floatVal;
@@ -50,7 +50,19 @@ public class ProcessQueue {
             Task task = new Task(name, arrivalTime, runTime, priority);
             taskSet.add(task);
         }
+        
         taskSet.toArray(tasks);
+        return sortByArrivalTime(tasks);
+    }
+    
+    /**
+     * Sorts an Array of tasks by their arrival time.
+     * 
+     * @param tasks (Task Array) : An Array of tasks.
+     * @return tasks (Task Array) : A sorted Array of tasks.
+     */
+    public Task[] sortByArrivalTime(Task[] tasks) 
+    {
         //Comparator for sorting the array by arrival time
         Comparator<Task> c = new Comparator<Task>() {
             public int compare(Task t1, Task t2) {

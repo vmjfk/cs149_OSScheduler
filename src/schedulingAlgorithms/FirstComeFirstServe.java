@@ -26,7 +26,7 @@ public class FirstComeFirstServe {
             ArrayList<Task> scheduledTasks = new ArrayList<>();
 
             //For each of 5 runs create a new process queue
-            Task[] tasks = processQueue.generate(i);
+            Task[] tasks = processQueue.generateProcesses(i);
             //Tasks are already sorted by arrivalTime so put in list for FCFS
             ArrayList<Task> taskList = new ArrayList<Task>(Arrays.asList(tasks));
 
