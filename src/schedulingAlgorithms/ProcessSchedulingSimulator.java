@@ -29,7 +29,8 @@ public class ProcessSchedulingSimulator {
             option = input.nextInt();
             switch(option) {
                 case 1: 
-                	new FirstComeFirstServe(processQueue);
+                	FirstComeFirstServe fcfs = new FirstComeFirstServe(processQueue);
+                	fcfs.runNonPreemptive();
                 	break;
                 case 2: 
                 	new ShortestJobFirst(processQueue);

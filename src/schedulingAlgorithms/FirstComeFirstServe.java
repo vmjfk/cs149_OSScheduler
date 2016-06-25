@@ -5,15 +5,35 @@ import java.util.Arrays;
 
 public class FirstComeFirstServe 
 {	
+	private ProcessQueue processQueue;
+	private int finalTasksDone;
+	private float finalTime;
+	private float finalTurnaroundTime;
+	private float finalWaitTime;
+	private float finalResponseTime;
+	
+	/**
+	 * Constructor method.
+	 * 
+	 * @param processQueue (ProcessQueue) : A specialized Queue used for
+	 *     generating and sorting organized simulated processes.
+	 */
 	public FirstComeFirstServe(ProcessQueue processQueue) 
 	{	
-		// Declare all variables needed for final output after 5 runs
-        int finalTasksDone = 0;
-        float finalTime = 0;
-        float finalTurnaroundTime = 0;
-        float finalWaitTime = 0;
-        float finalResponseTime = 0;
-        
+		this.processQueue = processQueue;
+        this.finalTasksDone = 0;
+        this.finalTime = 0;
+        this.finalTurnaroundTime = 0;
+        this.finalWaitTime = 0;
+        this.finalResponseTime = 0;
+	}
+	
+	/**
+	 * Runs the FirstComeFirstServe algorithm for
+	 *     process simulation.
+	 */
+	public void runNonPreemptive()
+	{
         for (int i = 1; i <= 5; i++) 
         {
             // Variables needed for tracking progress of each run
@@ -79,25 +99,45 @@ public class FirstComeFirstServe
 
             // Make a copy of the completed tasks to use in the time chart
             ArrayList<Task> tasksChart = new ArrayList<Task>(scheduledTasks);
-
-            // Print out the stats for all completed tasks for each run
-            System.out.println("\n########################################################################################");
-            System.out.println("############ The following processes were completed for FCFS run " + i + " #####################");
-            System.out.println("########################################################################################");
-            while(!scheduledTasks.isEmpty()) 
-            {
-                Task t = scheduledTasks.remove(0);
-                System.out.println(t);
-            }
-            
-            // Print time chart of completed tasks for each run
-            System.out.println("\n############################################################");
-            System.out.println("############ FCFS Time Chart for run " + i + " #####################");
-            System.out.println("############################################################");
-            new GanttChart(tasksChart);
+            printCompletedTasks(scheduledTasks, i);
+            printTimeChart(tasksChart, i);
         }
         
-        // Print out all calculated averages and Throughput for all 5 runs
+        printFinalBenchmark();
+    }
+	
+	/**
+	 * Prints out the stats for all completed tasks
+	 */
+	public void printCompletedTasks(ArrayList<Task> scheduledTasks, int run)
+	{
+        System.out.println("\n########################################################################################");
+        System.out.println("############ The following processes were completed for FCFS run " + run + " #####################");
+        System.out.println("########################################################################################");
+        while(!scheduledTasks.isEmpty()) 
+        {
+            Task t = scheduledTasks.remove(0);
+            System.out.println(t);
+        }
+	}
+	
+	/**
+	 * Prints time chart of completed run
+	 */
+	public void printTimeChart(ArrayList<Task> tasksChart, int run)
+	{
+        System.out.println("\n############################################################");
+        System.out.println("############ FCFS Time Chart for run " + run + " #####################");
+        System.out.println("############################################################");
+        new GanttChart(tasksChart);
+    }
+	
+	/**
+	 * Prints out all calculated averages and throughput for
+	 *     a completed FirstComeFirstServe simulation.
+	 */
+	public void printFinalBenchmark()
+	{
         System.out.println("\n#######################################################################################");
         System.out.println("############ Final calculated averages and calculated throughput for FCFS #############");
         System.out.println("#######################################################################################");
@@ -106,5 +146,5 @@ public class FirstComeFirstServe
         System.out.println("Average Response Time = " + finalResponseTime/finalTasksDone);
         System.out.println("Throughput = " + finalTasksDone/finalTime);
         System.out.println();
-    }
+	}
 }
