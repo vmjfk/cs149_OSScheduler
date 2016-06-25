@@ -70,17 +70,28 @@ class Task implements Cloneable{
     
     /**
      * 
+     * @param otherInt
+     * @return
+     */
+    public int compareArrivalTime(int otherArrivalTime)
+    {
+    	int difference = (this.arrivalTime - otherArrivalTime);
+    	if (difference > 0) {return 1;}
+    	else if (difference == 0) {return 0;}
+    	else {return -1;}
+    }
+    
+    /**
+     * 
      * @param otherFloat
      * @return
      */
-    public int compareRunTime(Float otherFloat)
+    public int compareRunTime(Float otherRunTime)
     {
-    	return (int) (this.runTime - otherFloat);
-    }
-    
-    public int compareArrivalTime(int otherInt)
-    {
-    	return (this.arrivalTime - otherInt);
+    	float difference = (this.runTime - otherRunTime);
+    	if (difference > 0) {return 1;}
+    	else if (difference == 0) {return 0;}
+    	else {return -1;}
     }
     
     @Override

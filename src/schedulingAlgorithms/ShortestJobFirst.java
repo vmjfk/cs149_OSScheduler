@@ -56,18 +56,16 @@ public class ShortestJobFirst {
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
             
             // Queue for ready processes ordered by run time with ties broken by arrival time
-            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() 
+            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>()
             {
-                public int compare(Task t1, Task t2) 
+                public int compare(Task t1, Task t2)
                 {
-                    if (t1.getRunTime() == t2.getRunTime()) 
+                	int difference = t1.compareRunTime(t2.getRunTime()); 
+                    if (difference == 0)
                     {
-                        return (t1.getArrivalTime() < t2.getArrivalTime()) ? -1 : 1;
-                    } 
-                    else 
-                    {
-                        return (t1.getRunTime() < t2.getRunTime()) ? -1 : 1;
+                    	return (t1.compareArrivalTime(t2.getArrivalTime()));
                     }
+                    return difference;
                 }
             });
 
