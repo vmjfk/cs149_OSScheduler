@@ -2,22 +2,24 @@ package schedulingAlgorithms;
 
 public class HighestPriorityFirst 
 {
-	public HighestPriorityFirst()
+	private ProcessQueue processQueue;
+	
+	public HighestPriorityFirst(ProcessQueue processQueue)
 	{
-		
+		this.processQueue = processQueue;
 	}
 	
     /**
      * Highest Priority First (non-preemptive)
      */
-    private void preemptive() {
+    public void runNonPreemptive() {
         //TODO 
     }
 
     /**
      * Higest Priority First (preemptive)
      */
-    private void nonPreemptive() {
+    public void runPreemptive() {
         //TODO
     }
 }
