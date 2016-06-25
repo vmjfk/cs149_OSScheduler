@@ -29,7 +29,7 @@ public class FirstComeFirstServe
 	}
 	
 	/**
-	 * Runs the FirstComeFirstServe algorithm for
+	 * Runs a non-preemptive FirstComeFirstServe algorithm for
 	 *     process simulation.
 	 */
 	public void runNonPreemptive()
@@ -121,9 +121,7 @@ public class FirstComeFirstServe
         }
 	}
 	
-	/**
-	 * Prints time chart of completed run
-	 */
+
 	public void printTimeChart(ArrayList<Task> tasksChart, int run)
 	{
         System.out.println("\n############################################################");

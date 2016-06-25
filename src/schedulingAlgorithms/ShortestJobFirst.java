@@ -8,16 +8,36 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class ShortestJobFirst {
-	   /**
-     * Shortest job first (non-preemptive)
-     */
-    public ShortestJobFirst(ProcessQueue processQueue) {
-        //Declare all variables needed for final output
-        int finalTasksDone = 0;
-        float finalTime = 0;
-        float finalTurnaroundTime = 0;
-        float finalWaitTime = 0;
-        float finalResponseTime = 0;
+	
+	private ProcessQueue processQueue;
+	private int finalTasksDone;
+	private float finalTime;
+	private float finalTurnaroundTime;
+	private float finalWaitTime;
+	private float finalResponseTime;
+	
+	/**
+	 * Constructor method.
+	 * 
+	 * @param processQueue (ProcessQueue) : A specialized Queue used for
+	 *     generating and sorting organized simulated processes.
+	 */
+	public ShortestJobFirst(ProcessQueue processQueue) 
+    {
+        this.processQueue = processQueue;
+        this.finalTasksDone = 0;
+        this.finalTime = 0;
+        this.finalTurnaroundTime = 0;
+        this.finalWaitTime = 0;
+        this.finalResponseTime = 0;
+    }
+        
+	/**
+	 * Runs a non-preemptive ShortestJobFirst algorithm for
+	 *     process simulation.
+	 */
+    public void runNonPreemptive()
+    {
         for(int i = 1; i <= 5; i++) {
             //Variables needed for tracking progress of each run
             int clock = 0;
@@ -95,21 +115,46 @@ public class ShortestJobFirst {
 
             //Make a copy of the completed tasks to use in the time chart
             ArrayList<Task> tasksChart = new ArrayList<Task>(scheduledTasks);
+            printCompletedTasks(scheduledTasks, i);
+            printTimeChart(tasksChart, i);
 
-            //Print out the stats for all completed tasks for each run
-            System.out.println("\n#######################################################################################");
-            System.out.println("############ The following processes were completed for SJF run " + i + " #####################");
-            System.out.println("#######################################################################################");
-            while(!scheduledTasks.isEmpty()) {
-                Task t = scheduledTasks.remove(0);
-                System.out.println(t);
-            }
-            //print time chart of completed tasks for each run
-            System.out.println("\n###########################################################");
-            System.out.println("############ SJF Time Chart for run " + i + " #####################");
-            System.out.println("###########################################################");
-            new GanttChart(tasksChart);
         }
+        
+        printFinalBenchmark();
+    }
+    
+	/**
+	 * Prints time chart of completed run
+	 */
+    public void printCompletedTasks(ArrayList<Task> scheduledTasks, int run)
+    {
+        System.out.println("\n#######################################################################################");
+        System.out.println("############ The following processes were completed for SJF run " + run + " #####################");
+        System.out.println("#######################################################################################");
+        while(!scheduledTasks.isEmpty()) {
+            Task t = scheduledTasks.remove(0);
+            System.out.println(t);
+        }	
+    }
+    
+	/**
+	 * Prints out all calculated averages and throughput for
+	 *     a completed FirstComeFirstServe simulation.
+	 */
+    public void printTimeChart(ArrayList<Task> tasksChart, int run)
+    {
+        System.out.println("\n###########################################################");
+        System.out.println("############ SJF Time Chart for run " + run + " #####################");
+        System.out.println("###########################################################");
+        new GanttChart(tasksChart);
+    }
+    
+	/**
+	 * Prints out all calculated averages and throughput for
+	 *     a completed ShortestJobFirst simulation.
+	 */
+    public void printFinalBenchmark()
+    {
         //Print out all calculated averages and Throughput for all 5 runs
         System.out.println("\n######################################################################################");
         System.out.println("############ Final calculated averages and calculated throughput for SJF #############");
