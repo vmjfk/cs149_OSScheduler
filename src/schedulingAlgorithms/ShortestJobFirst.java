@@ -38,8 +38,9 @@ public class ShortestJobFirst {
 	 */
     public void runNonPreemptive()
     {
-        for(int i = 1; i <= 5; i++) {
-            //Variables needed for tracking progress of each run
+        for(int i = 1; i <= 5; i++) 
+        {
+            // Variables needed for tracking progress of each run
             int clock = 0;
             int tasksDone = 0;
             int totalTasksDone = 0;
@@ -50,74 +51,89 @@ public class ShortestJobFirst {
             float totalResponseTime = 0;
             ArrayList<Task> scheduledTasks = new ArrayList<>();
 
-            //For each of 5 runs create a new process queue
+            // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-            //Queue for ready processes ordered by run time with ties broken by arrival time
-            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() {
-                public int compare(Task t1, Task t2) {
-                    if(t1.getRunTime() == t2.getRunTime()) {
-                        return t1.getArrivalTime() < t2.getArrivalTime() ? -1 : 1;
-                    } else {
-                        return t1.getRunTime() < t2.getRunTime() ? -1 : 1;
+            
+            // Queue for ready processes ordered by run time with ties broken by arrival time
+            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() 
+            {
+                public int compare(Task t1, Task t2) 
+                {
+                    if (t1.getRunTime() == t2.getRunTime()) 
+                    {
+                        return (t1.getArrivalTime() < t2.getArrivalTime()) ? -1 : 1;
+                    } 
+                    else 
+                    {
+                        return (t1.getRunTime() < t2.getRunTime()) ? -1 : 1;
                     }
                 }
             });
 
-            while(!taskList.isEmpty() || !readyQueue.isEmpty()) {
-                //Get the correct process to be scheduled
+            while(!taskList.isEmpty() || !readyQueue.isEmpty()) 
+            {
+                // Get the correct process to be scheduled
                 Task t;
-                if(readyQueue.isEmpty()) {
+                if (readyQueue.isEmpty()) 
+                {
                     t = taskList.poll();
-                } else {
+                } 
+                else 
+                {
                     t = readyQueue.poll();
                 }
 
                 //Update start and completion times for this process
                 int startTime = Math.max((int)Math.ceil(t.getArrivalTime()), clock);
-                if(startTime > 99) break;
+                if (startTime > 99) break;
                 t.setStartTime(startTime);
                 completionTime = startTime + t.getRunTime();
                 t.setCompletionTime(completionTime);
 
-                //Update completed tasks and clock
+                // Update completed tasks and clock
                 scheduledTasks.add(t);
                 tasksDone++;
                 clock = (int)Math.ceil(completionTime);
 
-                //Add processes to the ready queue that have arrived by this time
-                while(taskList.peek() != null && taskList.peek().getArrivalTime() <= clock) {
+                // Add processes to the ready queue that have arrived by this time
+                while (taskList.peek() != null && taskList.peek().getArrivalTime() <= clock) 
+                {
                     readyQueue.add(taskList.poll());
                 }
 
-                //Variables for statistics for this process only
-                float turnaroundTime = completionTime - t.getArrivalTime();
-                float waitTime = turnaroundTime - t.getRunTime();
-                int responseTime = startTime - t.getArrivalTime();
+                // Variables for statistics for this process only
+                float turnaroundTime = (completionTime - t.getArrivalTime());
+                float waitTime = (turnaroundTime - t.getRunTime());
+                int responseTime = (startTime - t.getArrivalTime());
 
-                //Update totals at end of each run
-                totalTurnaroundTime = totalTurnaroundTime + turnaroundTime;
-                totalWaitTime = totalWaitTime + waitTime;
-                totalResponseTime = totalResponseTime + responseTime;
+                // Update totals at end of each run
+                totalTurnaroundTime += turnaroundTime;
+                totalWaitTime += waitTime;
+                totalResponseTime += responseTime;
                 totalTasksDone = tasksDone;
-                if(completionTime >= 99) {
+                
+                if (completionTime >= 99) 
+                {
                     totalTime = completionTime; //time until last process is complete
-                } else {
+                } 
+                else 
+                {
                     totalTime = 99;
                 }
             }
-            //Update final numbers needed for averages at each of 5 runs
-            finalTurnaroundTime = finalTurnaroundTime + totalTurnaroundTime;
-            finalWaitTime = finalWaitTime + totalWaitTime;
-            finalResponseTime = finalResponseTime + totalResponseTime;
-            finalTime = finalTime + totalTime;
-            finalTasksDone = finalTasksDone + totalTasksDone;
+            
+            // Update final numbers needed for averages at each of 5 runs
+            finalTurnaroundTime += totalTurnaroundTime;
+            finalWaitTime += totalWaitTime;
+            finalResponseTime += totalResponseTime;
+            finalTime += totalTime;
+            finalTasksDone += totalTasksDone;
 
-            //Make a copy of the completed tasks to use in the time chart
+            // Make a copy of the completed tasks to use in the time chart
             ArrayList<Task> tasksChart = new ArrayList<Task>(scheduledTasks);
             printCompletedTasks(scheduledTasks, i);
             printTimeChart(tasksChart, i);
-
         }
         
         printFinalBenchmark();

@@ -49,7 +49,8 @@ public class FirstComeFirstServe
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
-            //Tasks are already sorted by arrivalTime so put in list for FCFS
+            
+            // Tasks are already sorted by arrivalTime so put in list for FCFS
             ArrayList<Task> taskList = new ArrayList<Task>(Arrays.asList(tasks));
 
             // Schedule tasks until either no more tasks or start time > 99
@@ -62,24 +63,25 @@ public class FirstComeFirstServe
                 int startTime = Math.max((int) Math.ceil(t.getArrivalTime()), clock);
                 if (startTime > 99) break;
                 t.setStartTime(startTime);
-                completionTime = startTime + t.getRunTime();
+                completionTime = (startTime + t.getRunTime());
                 t.setCompletionTime(completionTime);
 
-                //Update completed tasks and clock
+                // Update completed tasks and clock
                 scheduledTasks.add(t);
                 tasksDone++;
                 clock = (int) Math.ceil(completionTime);
 
                 // Variables for statistics for this process only
-                float turnaroundTime = completionTime - t.getArrivalTime();
-                float waitTime = turnaroundTime - t.getRunTime();
-                int responseTime = startTime - t.getArrivalTime();
+                float turnaroundTime = (completionTime - t.getArrivalTime());
+                float waitTime = (turnaroundTime - t.getRunTime());
+                int responseTime = (startTime - t.getArrivalTime());
 
                 // Update totals at end of each run
-                totalTurnaroundTime = totalTurnaroundTime + turnaroundTime;
-                totalWaitTime = totalWaitTime + waitTime;
-                totalResponseTime = totalResponseTime + responseTime;
+                totalTurnaroundTime += turnaroundTime;
+                totalWaitTime += waitTime;
+                totalResponseTime += responseTime;
                 totalTasksDone = tasksDone;
+                
                 if (completionTime >= 99) 
                 {
                     totalTime = completionTime; // Time until last process is complete
@@ -91,11 +93,11 @@ public class FirstComeFirstServe
             }
             
             // Update final numbers needed for averages
-            finalTurnaroundTime = finalTurnaroundTime + totalTurnaroundTime;
-            finalWaitTime = finalWaitTime + totalWaitTime;
-            finalResponseTime = finalResponseTime + totalResponseTime;
-            finalTime = finalTime + totalTime;
-            finalTasksDone = finalTasksDone + totalTasksDone;
+            finalTurnaroundTime += totalTurnaroundTime;
+            finalWaitTime += totalWaitTime;
+            finalResponseTime += totalResponseTime;
+            finalTime += totalTime;
+            finalTasksDone += totalTasksDone;
 
             // Make a copy of the completed tasks to use in the time chart
             ArrayList<Task> tasksChart = new ArrayList<Task>(scheduledTasks);
