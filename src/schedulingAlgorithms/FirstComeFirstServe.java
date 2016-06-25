@@ -22,10 +22,10 @@ public class FirstComeFirstServe
 	{	
 		this.processQueue = processQueue;
         this.finalTasksDone = 0;
-        this.finalTime = 0;
-        this.finalTurnaroundTime = 0;
-        this.finalWaitTime = 0;
-        this.finalResponseTime = 0;
+        this.finalTime = 0.0f;
+        this.finalTurnaroundTime = 0.0f;
+        this.finalWaitTime = 0.0f;
+        this.finalResponseTime = 0.0f;
 	}
 	
 	/**
@@ -40,11 +40,11 @@ public class FirstComeFirstServe
             int clock = 0;
             int tasksDone = 0;
             int totalTasksDone = 0;
-            float completionTime = 0;
-            float totalTime = 0;
-            float totalTurnaroundTime = 0;
-            float totalWaitTime = 0;
-            float totalResponseTime = 0;
+            float completionTime = 0.0f;
+            float totalTime = 0.0f;
+            float totalTurnaroundTime = 0.0f;
+            float totalWaitTime = 0.0f;
+            float totalResponseTime = 0.0f;
             ArrayList<Task> scheduledTasks = new ArrayList<>();
 
             // For each of 5 runs create a new process queue

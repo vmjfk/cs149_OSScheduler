@@ -18,8 +18,7 @@ public class ProcessQueue {
 		this.quantaMax = quantaMax;
 		this.runtimeMax = runtimeMax;
 		this.priorityMax = priorityMax;
-		this.numberOfTasks = numberOfTasks;
-		
+		this.numberOfTasks = numberOfTasks;	
 	}
 	
     /**
@@ -66,10 +65,30 @@ public class ProcessQueue {
         //Comparator for sorting the array by arrival time
         Comparator<Task> c = new Comparator<Task>() {
             public int compare(Task t1, Task t2) {
-                return t1.getArrivalTime() - t2.getArrivalTime();
+                return t1.compareArrivalTime(t2.getArrivalTime());
             }
         };
-        Arrays.sort(tasks, c); // actually sort the array
+        Arrays.sort(tasks, c);
         return tasks;
     }
+    
+   /**
+    * Sorts an Array of tasks by their burst time.
+    * 
+    * @param tasks (Task Array) : An Array of tasks.
+    * @return tasks (Task Array) : A sorted Array of tasks.
+    */
+   public Task[] sortByBurstTime(Task[] tasks) 
+   {
+       //Comparator for sorting the array by burst time
+       Comparator<Task> c = new Comparator<Task>() {
+           public int compare(Task t1, Task t2) {
+               return t1.compareRunTime(t2.getRunTime());
+           }
+       };
+       Arrays.sort(tasks, c);
+       return tasks;
+   }
+    
+    
 }

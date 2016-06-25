@@ -1,5 +1,7 @@
 package schedulingAlgorithms;
 
+import java.lang.*;
+
 /**
  * Task is a helper class for creating task objects. These tasks
  * are simulations of running processes in an operating system
@@ -7,7 +9,7 @@ package schedulingAlgorithms;
 class Task implements Cloneable{
     private String name;
     private int arrivalTime;
-    private float runTime; //Burst time
+    private float runTime; // Burst time
     private int priority;
     private int startTime;
     private float completionTime;
@@ -20,27 +22,27 @@ class Task implements Cloneable{
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public int getArrivalTime() {
-        return arrivalTime;
+        return this.arrivalTime;
     }
 
     public float getRunTime() {
-        return runTime;
+        return this.runTime;
     }
 
     public int getPriority() {
-        return priority;
+        return this.priority;
     }
 
     public int getStartTime() {
-        return startTime;
+        return this.startTime;
     }
 
     public float getCompletionTime() {
-        return completionTime;
+        return this.completionTime;
     }
 
     public void setRunTime(float runTime) {
@@ -56,23 +58,43 @@ class Task implements Cloneable{
     }
 
     public Object clone() {
-        try {
+        try 
+        {
             return super.clone();
-        } catch(Exception e) {
+        } 
+        catch (Exception e) 
+        {
             return null;
         }
     }
     
+    /**
+     * 
+     * @param otherFloat
+     * @return
+     */
+    public int compareRunTime(Float otherFloat)
+    {
+    	return (int) (this.runTime - otherFloat);
+    }
+    
+    public int compareArrivalTime(int otherInt)
+    {
+    	return (this.arrivalTime - otherInt);
+    }
+    
     @Override
-    public boolean equals(Object o) {
-        if(o instanceof Task){
+    public boolean equals(Object o) 
+    {
+        if (o instanceof Task){
             Task otherTask = (Task) o;
             return name.equals(otherTask.getName());
         }
         return false;
     }
     @Override
-    public String toString() {
+    public String toString() 
+    {
         return "Process: " + name + "\n\tArrival Time = " + arrivalTime +
                 "\n\tExpected Run Time = " + runTime + "\n\tPriority = " + priority
                 + "\n\tStart Time = " + startTime + "\n\tCompletion Time = " + completionTime;
