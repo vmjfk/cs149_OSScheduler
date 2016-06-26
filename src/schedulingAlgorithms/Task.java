@@ -94,6 +94,20 @@ class Task implements Cloneable{
     	else {return -1;}
     }
     
+    /**
+     * 
+     * @param otherInt
+     * @return
+     */
+    public int comparePriority(int otherPriority)
+    {
+        int difference = (this.priority - otherPriority);
+        // Highest priority 1 > 4
+        if (difference < 0) {return 1;}
+        else if (difference == 0) {return 0;}
+        else {return -1;}
+    }
+    
     @Override
     public boolean equals(Object o) 
     {

@@ -68,8 +68,8 @@ public class ProcessSchedulingSimulator {
                 "(2) Shortest Job First\n" +
                 "(3) Shortest Remaining Time\n" +
                 "(4) Round Robin\n" +
-                "(5) Highest Priority First (Preemptive)\n" +
-                "(6) Highest Priority First (non-preemptive)" + "\n(7) Exit"
+                "(5) Highest Priority First (non-preemptive)\n" +
+                "(6) Highest Priority First (Preemptive)" + "\n(7) Exit"
     	);	
     }
 }
