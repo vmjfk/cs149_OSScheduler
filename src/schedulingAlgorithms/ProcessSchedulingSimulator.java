@@ -39,7 +39,7 @@ public class ProcessSchedulingSimulator {
                 	new ShortestRemainingTime(processQueue).runPreemptive();
                 	break;
                 case 4:
-                	pss.rr(processQueue);
+                    new RoundRobin(processQueue).runPreemptive();
                 	break;
                 case 5:
                 	new HighestPriorityFirst(processQueue).runNonPreemptive();
@@ -71,121 +71,5 @@ public class ProcessSchedulingSimulator {
                 "(5) Highest Priority First (Preemptive)\n" +
                 "(6) Highest Priority First (non-preemptive)" + "\n(7) Exit"
     	);	
-    }
-
-    /**
-     * Round Robin (preemptive) NOT FINISHED
-     */
-    private void rr(ProcessQueue processQueue) {
-        //Declare all variables needed for final output 
-        int finalTasksDone = 0;
-        float finalTime = 0;
-        float finalTurnaroundTime = 0;
-        float finalWaitTime = 0;
-        float finalResponseTime = 0;
-
-        for(int i = 1; i <= 5; i++) {
-            //Variables needed for tracking progress of each run
-            int clock = 0;
-            int tasksDone = 0;
-            int totalTasksDone = 0;
-            int startTime = 0;
-            float completionTime = 0;
-            float totalTime = 0;
-            float totalTurnaroundTime = 0;
-            float totalWaitTime = 0;
-            float totalResponseTime = 0;
-            ArrayList<Task> completedTasks = new ArrayList<>();
-            ArrayList<Task> scheduledTasks = new ArrayList<>();
-            Queue<Task> readyQueue = new LinkedList<>();
-            Queue<Task> waitingQueue = new LinkedList<>();
-            Map<String, Float> remainingRunTimes = new HashMap<>();
-
-            //For each of 5 runs create a new process queue
-            Task[] tasks = processQueue.generateProcesses(i);
-            Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-
-            while(!taskList.isEmpty() || !readyQueue.isEmpty() || !waitingQueue.isEmpty()) {
-                //Add processes that have arrived to the ready queue
-                while(!taskList.isEmpty() && taskList.peek().getArrivalTime() <= clock) {
-                    readyQueue.add(taskList.poll());
-                }
-                Task t;
-                if(!readyQueue.isEmpty()) {
-                    t = readyQueue.poll();
-                } else if (!waitingQueue.isEmpty()) {
-                    t = readyQueue.poll();
-                } else {
-                    continue;
-                }
-                
-                startTime = Math.max((int)Math.ceil(t.getArrivalTime()), clock);
-                completionTime = startTime + 1;
-                t.setCompletionTime(completionTime);
-                
-                //Variables for statistics for this round only
-                float turnaroundTime = 0;
-                float waitTime = 0;
-                int responseTime = 0;
-                
-                //Update if this is the first time seeing this process
-                if (!remainingRunTimes.containsKey(t.getName())) {
-                    if(startTime > 99) break;
-                    t.setStartTime(startTime);
-                    waitTime = startTime - t.getArrivalTime();
-                    responseTime = startTime - t.getArrivalTime();
-                    remainingRunTimes.put(t.getName(), t.getRunTime() - 1);
-                } else {
-                    waitTime = 1;
-                }
-
-
-
-                //TODO complete round robin (Lost the rest of this when setting up git)
-
-
-
-                
-                //Update totals at end of each run
-                totalTurnaroundTime = totalTurnaroundTime + turnaroundTime;
-                totalWaitTime = totalWaitTime + waitTime;
-                totalResponseTime = totalResponseTime + responseTime;
-                totalTasksDone = tasksDone;
-                if(completionTime >= 99) {
-                    totalTime = completionTime; //time until last process is complete
-                } else {
-                    totalTime = 99;
-                }
-            }
-            //Update final numbers needed for averages at each of 5 runs
-            finalTurnaroundTime = finalTurnaroundTime + totalTurnaroundTime;
-            finalWaitTime = finalWaitTime + totalWaitTime;
-            finalResponseTime = finalResponseTime + totalResponseTime;
-            finalTime = finalTime + totalTime;
-            finalTasksDone = finalTasksDone + totalTasksDone;
-
-            //Print out the stats for all completed tasks for each run
-            System.out.println("\n#######################################################################################");
-            System.out.println("############ The following processes were completed for SJF run " + i + " #####################");
-            System.out.println("#######################################################################################");
-            while(!completedTasks.isEmpty()) {
-                Task t = completedTasks.remove(0);
-                System.out.println(t);
-            }
-            //print time chart of completed tasks for each run
-            System.out.println("\n###########################################################");
-            System.out.println("############ SJF Time Chart for run " + i + " #####################");
-            System.out.println("###########################################################");
-            new GanttChart(scheduledTasks);
-        }
-        //Print out all calculated averages and Throughput for all 5 runs
-        System.out.println("\n######################################################################################");
-        System.out.println("############ Final calculated averages and calculated throughput for SJF #############");
-        System.out.println("######################################################################################");
-        System.out.println("Average Turnaround Time = " + finalTurnaroundTime/finalTasksDone);
-        System.out.println("Average Wait Time = " + finalWaitTime/finalTasksDone);
-        System.out.println("Average Response Time = " + finalResponseTime/finalTasksDone);
-        System.out.println("Throughput = " + finalTasksDone/finalTime);
-        System.out.println();
     }
 }
