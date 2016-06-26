@@ -62,15 +62,16 @@ public class ShortestRemainingTime {
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
             
             // Queue for ready processes ordered by run time with ties broken by arrival time
-            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() 
+            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>()
             {
-                public int compare(Task t1, Task t2) 
+                public int compare(Task t1, Task t2)
                 {
-                	int retval = t1.compareRunTime(t2.getRunTime());
-                	if (retval == 0) {
-                		return (t1.compareArrivalTime(t2.getArrivalTime()));
-                	} 
-                    return retval;                         
+                	int difference = t1.compareRunTime(t2.getRunTime()); 
+                    if (difference == 0)
+                    {
+                    	return (t1.compareArrivalTime(t2.getArrivalTime()));
+                    }
+                    return difference;
                 }
             });
 
@@ -88,7 +89,7 @@ public class ShortestRemainingTime {
                 }
 
                 //Update start and completion times for this process
-                int startTime = Math.max((int)Math.ceil(t.getArrivalTime()), clock);
+                int startTime = Math.max((int) Math.ceil(t.getArrivalTime()), clock);
                 if (startTime > 99) break;
                 t.setStartTime(startTime);
                 completionTime = startTime + t.getRunTime();
