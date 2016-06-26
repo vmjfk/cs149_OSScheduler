@@ -53,6 +53,9 @@ public class ShortestJobFirst {
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
+            // Sort task list by arrival time initially
+            processQueue.sortByArrivalTime(tasks);
+            // Place task list into a queue for processing with SJF
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
             
             // Queue for ready processes ordered by run time with ties broken by arrival time

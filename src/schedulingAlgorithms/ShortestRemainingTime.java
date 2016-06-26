@@ -59,8 +59,10 @@ public class ShortestRemainingTime {
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
+            // Sort task list by arrival time initially
+            processQueue.sortByArrivalTime(tasks);
+            // Place task list into a queue for processing with SJF
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-            
             // Queue for ready processes ordered by run time with ties broken by arrival time
             PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() 
             {
@@ -148,7 +150,7 @@ public class ShortestRemainingTime {
     private void printCompletedTasks(ArrayList<Task> scheduledTasks, int run)
     {
         System.out.println("\n#######################################################################################");
-        System.out.println("############ The following processes were completed for SJF run " + run + " #####################");
+        System.out.println("############ The following processes were completed for SRT run " + run + " #####################");
         System.out.println("#######################################################################################");
         while(!scheduledTasks.isEmpty()) {
             Task t = scheduledTasks.remove(0);
@@ -163,7 +165,7 @@ public class ShortestRemainingTime {
     private void printTimeChart(ArrayList<Task> tasksChart, int run)
     {
         System.out.println("\n###########################################################");
-        System.out.println("############ SJF Time Chart for run " + run + " #####################");
+        System.out.println("############ SRT Time Chart for run " + run + " #####################");
         System.out.println("###########################################################");
         new GanttChart(tasksChart);
     }
@@ -175,7 +177,7 @@ public class ShortestRemainingTime {
     private void printFinalBenchmark()
     {
         System.out.println("\n######################################################################################");
-        System.out.println("############ Final calculated averages and calculated throughput for SJF #############");
+        System.out.println("############ Final calculated averages and calculated throughput for SRT #############");
         System.out.println("######################################################################################");
         System.out.println("Average Turnaround Time = " + finalTurnaroundTime/finalTasksDone);
         System.out.println("Average Wait Time = " + finalWaitTime/finalTasksDone);
