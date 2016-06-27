@@ -99,7 +99,8 @@ public class RoundRobin
                         //If process finishes in this time slice
                         if(remainingTime <= 0)
                         {
-                            completionTime = startTime + t.getRunTime();
+                            // changed to t.getStartTime()
+                            completionTime = t.getStartTime() + t.getRunTime();
                             t.setCompletionTime(completionTime);
                             tasksDone++;
                             completedTasks.add(t);
