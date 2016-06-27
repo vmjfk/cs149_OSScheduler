@@ -44,6 +44,7 @@ public class RoundRobin_new {
             float totalResponseTime = 0.0f;
             ArrayList<Task> scheduledTasks = new ArrayList<>();
             ArrayList<Task> completedTasks = new ArrayList<>();
+
             Queue<Task> readyQueue = new LinkedList<>();
             Map<String, Float> remainingRunTimes = new HashMap<>();
 
@@ -53,7 +54,6 @@ public class RoundRobin_new {
             processQueue.sortByArrivalTime(tasks);
             // Place task list into a queue for processing with RR
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-
         }
 
     }
