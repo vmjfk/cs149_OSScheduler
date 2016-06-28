@@ -220,7 +220,7 @@ public class HighestPriorityFirst_preemptive
     public void printTimeChart(ArrayList<Task> tasksChart, int run)
     {
         System.out.println("\n############################################################");
-        System.out.println("############ RR Time Chart for run " + run + " #####################");
+        System.out.println("############ HPF Preemptive Time Chart for run " + run + " #####################");
         System.out.println("############################################################");
         new GanttChart(tasksChart);
     }
@@ -232,7 +232,7 @@ public class HighestPriorityFirst_preemptive
     public void printFinalBenchmark()
     {
         System.out.println("\n#######################################################################################");
-        System.out.println("############ Final calculated averages and calculated throughput for RR #############");
+        System.out.println("############ Final calculated averages and calculated throughput for HPF Preemptive #############");
         System.out.println("#######################################################################################");
         System.out.println("Average Turnaround Time = " + finalTurnaroundTime/finalTasksDone);
         System.out.println("Average Wait Time = " + finalWaitTime/finalTasksDone);
