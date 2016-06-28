@@ -35,6 +35,18 @@ public class HighestPriorityFirst_preemptive
         this.finalWaitTime = 0.0f;
         this.finalResponseTime = 0.0f;
     }
+
+    public boolean readyQueueIsEmpty(ArrayList<PriorityQueue<Task>> readyQueue)
+    {
+        for (PriorityQueue<Task> priorityQueue : readyQueue)
+        {
+            if (priorityQueue.isEmpty())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /**
      * Runs a preemptive RoundRobin algorithm for
@@ -81,13 +93,16 @@ public class HighestPriorityFirst_preemptive
                 priorityQueueCount -= 1;
             }
 
+
+
             
-            while(!taskList.isEmpty() || !readyQueue.isEmpty())
+            while(!taskList.isEmpty() || !readyQueueIsEmpty(readyQueue))
             {
                 //Add processes that have arrived to the ready queue
                 while(!taskList.isEmpty() && taskList.peek().getArrivalTime() <= clock)
                 {
-                    readyQueue.add(taskList.poll());
+                    Task t = taskList.poll();
+                    readyQueue.get(t.getPriority() - 1).add(t);
                 }
                 //Variables for statistics for this round only
                 // changed sliceStartTime to startTime
@@ -98,9 +113,10 @@ public class HighestPriorityFirst_preemptive
 
                 Task t;
 
-                if(!readyQueue.isEmpty())
+                if(!readyQueueIsEmpty(readyQueue))
                 {
                     t = readyQueue.poll();
+                    // t = readyQueuePoll();
                     if (t.getStartTime() == 0)
                     {
                         t.setStartTime(Math.max((int) Math.ceil(t.getArrivalTime()), clock));
