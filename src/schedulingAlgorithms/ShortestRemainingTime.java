@@ -59,26 +59,30 @@ public class ShortestRemainingTime {
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
+            
             // Sort task list by arrival time initially
-            processQueue.sortByArrivalTime(tasks);
+            //processQueue.sortByArrivalTime(tasks);
+            
             // Place task list into a queue for processing with SJF
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
+            
             // Queue for ready processes ordered by run time with ties broken by arrival time
-            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>() 
+            PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>()
             {
-                public int compare(Task t1, Task t2) 
+                public int compare(Task t1, Task t2)
                 {
-                	int retval = t1.compareRunTime(t2.getRunTime());
-                	if (retval == 0) {
-                		return (t1.compareArrivalTime(t2.getArrivalTime()));
-                	} 
-                    return retval;                         
+                	int difference = t1.compareRunTime(t2.getRunTime()); 
+                    if (difference == 0)
+                    {
+                    	return (t1.compareArrivalTime(t2.getArrivalTime()));
+                    }
+                    return difference;
                 }
             });
 
             while(!taskList.isEmpty() || !readyQueue.isEmpty()) 
             {
-                // Get the correct process to be scheduled
+                // Schedule the next process
                 Task t;
                 if (readyQueue.isEmpty()) 
                 {
@@ -90,7 +94,7 @@ public class ShortestRemainingTime {
                 }
 
                 //Update start and completion times for this process
-                int startTime = Math.max((int)Math.ceil(t.getArrivalTime()), clock);
+                int startTime = Math.max((int) Math.ceil(t.getArrivalTime()), clock);
                 if (startTime > 99) break;
                 t.setStartTime(startTime);
                 completionTime = startTime + t.getRunTime();
@@ -99,12 +103,38 @@ public class ShortestRemainingTime {
                 // Update completed tasks and clock
                 scheduledTasks.add(t);
                 tasksDone++;
-                clock = (int)Math.ceil(completionTime);
+                clock = (int) Math.ceil(completionTime);
 
                 // Add processes to the ready queue that have arrived by this time
                 while (taskList.peek() != null && taskList.peek().getArrivalTime() <= clock) 
                 {
-                    readyQueue.add(taskList.poll());
+                	Task incomingTask = taskList.poll();
+                	
+                	// If the current process does not have the shortest runtime,
+                	// place the current process back into the readyQueue and 
+                	// let the incoming process take over. We then need to update all of
+                	// our variables to represent the newly scheduled process.
+                	if (t.getRunTime() > incomingTask.getRunTime())
+                	{
+                		readyQueue.add(t);
+                		t = incomingTask;
+                        
+                		//Update start and completion times for this process
+                        startTime = Math.max((int) Math.ceil(t.getArrivalTime()), clock);
+                        if (startTime > 99) break;
+                        t.setStartTime(startTime);
+                        completionTime = startTime + t.getRunTime();
+                        t.setCompletionTime(completionTime);
+
+                        // Update completed tasks and clock
+                        scheduledTasks.add(t);
+                        tasksDone++;
+                        clock = (int) Math.ceil(completionTime);
+                	}
+                	else
+                	{
+                		readyQueue.add(incomingTask);
+                	}
                 }
 
                 // Variables for statistics for this process only

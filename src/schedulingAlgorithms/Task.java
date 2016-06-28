@@ -1,12 +1,10 @@
 package schedulingAlgorithms;
 
-import java.lang.*;
-
 /**
  * Task is a helper class for creating task objects. These tasks
  * are simulations of running processes in an operating system
  */
-class Task implements Cloneable{
+class Task implements Cloneable, Comparable {
     private String name;
     private int arrivalTime;
     private float runTime; // Burst time
@@ -124,4 +122,10 @@ class Task implements Cloneable{
                 "\n\tExpected Run Time = " + runTime + "\n\tPriority = " + priority
                 + "\n\tStart Time = " + startTime + "\n\tCompletion Time = " + completionTime;
     }
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

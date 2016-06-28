@@ -12,7 +12,7 @@ public class ProcessSchedulingSimulator {
     private final static int QUANTA_MAX = 100;
     private final static int RUNTIME_MAX = 10;
     private final static int PRIORITY_MAX = 4;
-    private final static int NUM_OF_TASKS = 100;
+    private final static int NUM_OF_TASKS = 1000;
 
     /**
      * The main method. The entry point for the application.
@@ -47,7 +47,7 @@ public class ProcessSchedulingSimulator {
                 case 6:
                 	new HighestPriorityFirst(processQueue).runPreemptive();
                 	break;
-                default: 
+                default:
                 	option = 7;
                 	break;
             }
