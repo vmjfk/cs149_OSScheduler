@@ -39,12 +39,19 @@ public class HPFP_Queue extends ArrayList{
         priorityQueue.get(t.getPriority() - 1).add(t);
     }
 
-    public void poll(ArrayList<PriorityQueue<Task>> readyQueue){
+    public Task poll(ArrayList<PriorityQueue<Task>> readyQueue){
+
         for (PriorityQueue<Task> priorityQueue : readyQueue){
             if(!priorityQueue.isEmpty()){
-                priorityQueue.poll();
+                try {
+                    return priorityQueue.poll();
+                }
+                catch (NullPointerException e){
+
+                }
             }
         }
+        return null;
     }
 
 }
