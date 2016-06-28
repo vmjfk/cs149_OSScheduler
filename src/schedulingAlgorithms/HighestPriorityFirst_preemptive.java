@@ -1,7 +1,7 @@
 package schedulingAlgorithms;
 
 import com.apple.concurrent.Dispatch;
-import HPFP_Queue;
+//import HPFP_Queue;
 import java.util.*;
 
 /**
@@ -87,7 +87,7 @@ public class HighestPriorityFirst_preemptive
 
                 if(!readyQueue.isEmpty(readyQueue))
                 {
-                    t = readyQueue.poll();
+                    t = readyQueue.poll(readyQueue);
                     // t = readyQueuePoll();
                     if (t.getStartTime() == 0)
                     {
