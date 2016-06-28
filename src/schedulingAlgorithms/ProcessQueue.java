@@ -22,8 +22,9 @@ public class ProcessQueue {
 	}
 	
     /**
-     * Generates an array of processes
-     * 
+     * Generates an array of processes and sorts them by arrival time.
+     * In this way, all process queues enter the algorithms in arrival time order,
+     * which is the order they would naturally arrive in real life
      * @return tasks (Task Array) : Randomly generated processes.
      */
     public Task[] generateProcesses(int seed) {
@@ -31,7 +32,6 @@ public class ProcessQueue {
         float runTime;
         float floatVal;
         int priority;
-        Task[] tasks = new Task[numberOfTasks];
         Set<Task> taskSet = new HashSet<Task>();
         Random random = new Random(seed);
         for(int i = 0; i < numberOfTasks; i++) {
@@ -49,8 +49,8 @@ public class ProcessQueue {
             Task task = new Task(name, arrivalTime, runTime, priority);
             taskSet.add(task);
         }
-        
-        return taskSet.toArray(tasks);
+        Task[] tasks = taskSet.toArray(new Task[taskSet.size()]);
+        return sortByArrivalTime(tasks);
     }
     
     /**
@@ -88,6 +88,4 @@ public class ProcessQueue {
        Arrays.sort(tasks, c);
        return tasks;
    }
-    
-    
 }
