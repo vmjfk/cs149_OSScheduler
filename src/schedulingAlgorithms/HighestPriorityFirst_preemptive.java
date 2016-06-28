@@ -1,7 +1,7 @@
 package schedulingAlgorithms;
 
 import com.apple.concurrent.Dispatch;
-
+import HPFP_Queue;
 import java.util.*;
 
 /**
@@ -35,19 +35,6 @@ public class HighestPriorityFirst_preemptive
         this.finalWaitTime = 0.0f;
         this.finalResponseTime = 0.0f;
     }
-
-    // mark
-    public boolean readyQueueIsEmpty(ArrayList<PriorityQueue<Task>> readyQueue)
-    {
-        for (PriorityQueue<Task> priorityQueue : readyQueue)
-        {
-            if (priorityQueue.isEmpty())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     
     /**
      * Runs a preemptive RoundRobin algorithm for
@@ -70,7 +57,7 @@ public class HighestPriorityFirst_preemptive
 
             ArrayList<Task> scheduledTasks = new ArrayList<>();
             ArrayList<Task> completedTasks = new ArrayList<>();
-            Queue<Task> readyQueue = new LinkedList<>();
+            HPFP_Queue readyQueue = new HPFP_Queue(priorityQueueCount);
             Map<String, Float> remainingRunTimes = new HashMap<>();
             
             // For each of 5 runs create a new process queue
@@ -80,17 +67,14 @@ public class HighestPriorityFirst_preemptive
             // Place task list into a queue for processing with RR
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
 
-            ArrayList<PriorityQueue<Task>> readyQueue = new ArrayList<>();
 
-            // mark
-            while(!taskList.isEmpty() || !readyQueueIsEmpty(readyQueue))
+            while(!taskList.isEmpty() || !readyQueue.isEmpty(readyQueue))
             {
                 //Add processes that have arrived to the ready queue
                 while(!taskList.isEmpty() && taskList.peek().getArrivalTime() <= clock)
                 {
                     Task t = taskList.poll();
-                    // mark
-                    readyQueue.get(t.getPriority() - 1).add(t);
+                    readyQueue.addTask(readyQueue, t);
                 }
                 //Variables for statistics for this round only
                 // changed sliceStartTime to startTime
@@ -101,7 +85,7 @@ public class HighestPriorityFirst_preemptive
 
                 Task t;
 
-                if(!readyQueueIsEmpty(readyQueue))
+                if(!readyQueue.isEmpty(readyQueue))
                 {
                     t = readyQueue.poll();
                     // t = readyQueuePoll();
