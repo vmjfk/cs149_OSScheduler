@@ -77,22 +77,25 @@ public class RoundRobin
                 }
                 //Variables for statistics for this round only
                 // changed sliceStartTime to startTime
-                int startTime = 0;
                 float turnaroundTime = 0.0f;
                 float waitTime = 0.0f;
                 float responseTime = 0.0f;
                 float remainingTime = 0.0f;
+
                 Task t;
+
                 if(!readyQueue.isEmpty())
                 {
                     t = readyQueue.poll();
-                    startTime = Math.max((int)Math.ceil(t.getArrivalTime()), clock);
-                    
+                    if (t.getStartTime() == 0)
+                    {
+                        t.setStartTime(Math.max((int) Math.ceil(t.getArrivalTime()), clock));
+                    }
+
                     //Update if this is the first time seeing this process
                     if (!remainingRunTimes.containsKey(t.getName()))
                     {
-                        if(startTime > 99) break;
-                        t.setStartTime(startTime);
+                        if(t.getStartTime() > 99) break;
                         responseTime = t.getStartTime() - t.getArrivalTime();
                         remainingTime = t.getRunTime() - 1;
                         
@@ -127,14 +130,14 @@ public class RoundRobin
                         //If process finishes in this time slice
                         if(remainingTime <= 0)
                         {
-                            completionTime = startTime + remainingRunTimes.get(t.getName());
+                            completionTime = t.getStartTime() + remainingRunTimes.get(t.getName());
                             t.setCompletionTime(completionTime);
                             tasksDone++;
                             completedTasks.add(t);
                             turnaroundTime = completionTime - t.getArrivalTime();
                             remainingRunTimes.remove(t.getName());
                             //Add wait time for all processes that have started but did not run in this slice
-                            waitTime = remainingRunTimes.size() * (completionTime - startTime);
+                            waitTime = remainingRunTimes.size() * (completionTime - t.getStartTime());
                         }
                         //Process did not finish yet but ran in this time slice
                         else
@@ -173,7 +176,7 @@ public class RoundRobin
                 totalWaitTime = totalWaitTime + waitTime;
                 totalResponseTime = totalResponseTime + responseTime;
                 totalTasksDone = tasksDone;
-                clock = startTime + 1;
+                clock = t.getStartTime() + 1;
                 if(completionTime >= 99)
                 {
                     totalTime = completionTime; //time until last process is complete
