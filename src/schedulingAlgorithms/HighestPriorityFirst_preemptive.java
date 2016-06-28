@@ -35,18 +35,6 @@ public class HighestPriorityFirst_preemptive
         this.finalWaitTime = 0.0f;
         this.finalResponseTime = 0.0f;
     }
-
-    public boolean readyQueueIsEmpty(ArrayList<PriorityQueue<Task>> readyQueue)
-    {
-        for (PriorityQueue<Task> priorityQueue : readyQueue)
-        {
-            if (priorityQueue.isEmpty())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
     
     /**
      * Runs a preemptive RoundRobin algorithm for
@@ -92,8 +80,6 @@ public class HighestPriorityFirst_preemptive
                 readyQueue.add(priorityQueue);
                 priorityQueueCount -= 1;
             }
-
-
 
             
             while(!taskList.isEmpty() || !readyQueueIsEmpty(readyQueue))
