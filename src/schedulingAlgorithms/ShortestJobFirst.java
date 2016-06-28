@@ -59,17 +59,11 @@ public class ShortestJobFirst {
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
-            
-            // Sort task list by arrival time initially
-            //processQueue.sortByArrivalTime(tasks); 
-            // -- I DONT BELIEVE ANY SORTING OCCURS PRIOR TO THE SCHEDULER --
-            // -- Technically they have not arrived, so we should assume that an unknown number of processes
-            // -- will be executed.
-            
-            // Place task list into a queue for processing with SJF
+
+            // Place task list into a queue for easier processing with SJF
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-            
-            // Queue for ready processes ordered by run time with ties broken by arrival time
+
+            // Create Queue for ready processes ordered by run time with ties broken by arrival time
             PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>()
             {
                 public int compare(Task t1, Task t2)

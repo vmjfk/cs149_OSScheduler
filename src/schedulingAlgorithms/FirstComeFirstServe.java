@@ -49,13 +49,7 @@ public class FirstComeFirstServe
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
-            // Sort task list by arrival time initially
-            
-            //processQueue.sortByArrivalTime(tasks);
-            // -- I DONT BELIEVE ANY SORTING OCCURS PRIOR TO THE SCHEDULER --
-            // -- Technically they have not arrived, so we should assume that an unknown number of processes
-            // -- will be executed.
-            
+
             // Tasks are already sorted by arrivalTime so put in list for FCFS
             ArrayList<Task> taskList = new ArrayList<Task>(Arrays.asList(tasks));
 

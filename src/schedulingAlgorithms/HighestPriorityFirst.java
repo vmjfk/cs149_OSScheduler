@@ -45,11 +45,10 @@ public class HighestPriorityFirst
 
             // For each of 5 runs create a new process queue
             Task[] tasks = processQueue.generateProcesses(i);
-            // Sort task list by arrival time initially
-            processQueue.sortByArrivalTime(tasks);
-            // Place task list into a queue for processing with HPF-NP
+
+            // Place task list into a queue for easier processing with HPF-NP
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-            
+
             // Queue for ready processes ordered by priority with ties broken by arrival time
             PriorityQueue<Task> readyQueue = new PriorityQueue<>(10, new Comparator<Task>()
             {
