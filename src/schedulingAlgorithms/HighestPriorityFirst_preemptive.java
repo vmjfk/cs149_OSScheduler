@@ -121,7 +121,7 @@ public class HighestPriorityFirst_preemptive
                             //Add this process to remainingRunTimes and update remaining time
                             remainingRunTimes.put(t.getName(), remainingTime);
                             //Put back into queue at end of line
-                            readyQueue.add(t);
+                            readyQueue.addTask(readyQueue, t);
                         }
 
                     }
@@ -149,7 +149,7 @@ public class HighestPriorityFirst_preemptive
                             //Update remaining time
                             remainingRunTimes.put(t.getName(), remainingTime);
                             //Put back into queue at end of line
-                            readyQueue.add(t);
+                            readyQueue.addTask(readyQueue, t);
                         }
                     }
                 }
