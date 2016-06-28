@@ -36,6 +36,7 @@ public class HighestPriorityFirst_preemptive
         this.finalResponseTime = 0.0f;
     }
 
+    // mark
     public boolean readyQueueIsEmpty(ArrayList<PriorityQueue<Task>> readyQueue)
     {
         for (PriorityQueue<Task> priorityQueue : readyQueue)
@@ -81,27 +82,14 @@ public class HighestPriorityFirst_preemptive
 
             ArrayList<PriorityQueue<Task>> readyQueue = new ArrayList<>();
 
-            while (priorityQueueCount > 0) {
-                PriorityQueue<Task> priorityQueue = new PriorityQueue<>(10, new Comparator<Task>()
-                {
-                    public int compare(Task t1, Task t2)
-                    {
-                        return t1.compareArrivalTime(t2.getArrivalTime());
-                    }
-                });
-                readyQueue.add(priorityQueue);
-                priorityQueueCount -= 1;
-            }
-
-
-
-            
+            // mark
             while(!taskList.isEmpty() || !readyQueueIsEmpty(readyQueue))
             {
                 //Add processes that have arrived to the ready queue
                 while(!taskList.isEmpty() && taskList.peek().getArrivalTime() <= clock)
                 {
                     Task t = taskList.poll();
+                    // mark
                     readyQueue.get(t.getPriority() - 1).add(t);
                 }
                 //Variables for statistics for this round only
