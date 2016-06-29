@@ -56,8 +56,10 @@ public class ProcessSchedulingSimulator {
         {
             while(option >= 1 && option <= 6)
             {
-                runSim(pss,option);
+                pss.printMenuOptions();
                 option = input.nextInt();
+                runSim(pss,option);
+                
             }
         }else {
             runSim(pss,option);
@@ -67,7 +69,7 @@ public class ProcessSchedulingSimulator {
     }
     
     private static void runSim(ProcessSchedulingSimulator pss, int option) {
-            pss.printMenuOptions();
+            
             ProcessQueue processQueue = new ProcessQueue(QUANTA_MAX, RUNTIME_MAX, PRIORITY_MAX, NUM_OF_TASKS);
             switch(option) 
             {
