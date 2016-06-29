@@ -1,11 +1,8 @@
 package schedulingAlgorithms;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import com.apple.concurrent.Dispatch;
+//import HPFP_Queue;
+import java.util.*;
 
 /**
  * RoundRobin
@@ -14,22 +11,22 @@ import java.util.Queue;
  * @author lord_tyler
  *
  */
-public class RoundRobin
-{   
+public class HighestPriorityFirst_preemptive
+{
     private ProcessQueue processQueue;
     private int finalTasksDone;
     private float finalTime;
     private float finalTurnaroundTime;
     private float finalWaitTime;
     private float finalResponseTime;
-    
+
     /**
      * Constructor method.
-     * 
+     *
      * @param processQueue (ProcessQueue) : A specialized Queue used for
      *     generating and sorting organized simulated processes.
      */
-    public RoundRobin(ProcessQueue processQueue) 
+    public HighestPriorityFirst_preemptive(ProcessQueue processQueue)
     {   
         this.processQueue = processQueue;
         this.finalTasksDone = 0;
@@ -56,9 +53,11 @@ public class RoundRobin
             float totalTurnaroundTime = 0.0f;
             float totalWaitTime = 0.0f;
             float totalResponseTime = 0.0f;
+            int priorityQueueCount = 4;
+
             ArrayList<Task> scheduledTasks = new ArrayList<>();
             ArrayList<Task> completedTasks = new ArrayList<>();
-            Queue<Task> readyQueue = new LinkedList<>();
+            HPFP_Queue readyQueue = new HPFP_Queue(priorityQueueCount);
             Map<String, Float> remainingRunTimes = new HashMap<>();
             
             // For each of 5 runs create a new process queue
@@ -67,13 +66,15 @@ public class RoundRobin
             processQueue.sortByArrivalTime(tasks);
             // Place task list into a queue for processing with RR
             Queue<Task> taskList = new LinkedList<Task>(Arrays.asList(tasks));
-            
-            while(!taskList.isEmpty() || !readyQueue.isEmpty())
+
+
+            while(!taskList.isEmpty() || !readyQueue.isEmpty(readyQueue))
             {
                 //Add processes that have arrived to the ready queue
                 while(!taskList.isEmpty() && taskList.peek().getArrivalTime() <= clock)
                 {
-                    readyQueue.add(taskList.poll());
+                    Task t = taskList.poll();
+                    readyQueue.addTask(readyQueue, t);
                 }
                 //Variables for statistics for this round only
                 // changed sliceStartTime to startTime
@@ -84,9 +85,10 @@ public class RoundRobin
 
                 Task t;
 
-                if(!readyQueue.isEmpty())
+                if(!readyQueue.isEmpty(readyQueue))
                 {
-                    t = readyQueue.poll();
+                    t = readyQueue.poll(readyQueue);
+                    // t = readyQueuePoll();
                     if (t.getStartTime() == 0)
                     {
                         t.setStartTime(Math.max((int) Math.ceil(t.getArrivalTime()), clock));
@@ -119,7 +121,7 @@ public class RoundRobin
                             //Add this process to remainingRunTimes and update remaining time
                             remainingRunTimes.put(t.getName(), remainingTime);
                             //Put back into queue at end of line
-                            readyQueue.add(t);
+                            readyQueue.addTask(readyQueue, t);
                         }
 
                     }
@@ -147,7 +149,7 @@ public class RoundRobin
                             //Update remaining time
                             remainingRunTimes.put(t.getName(), remainingTime);
                             //Put back into queue at end of line
-                            readyQueue.add(t);
+                            readyQueue.addTask(readyQueue, t);
                         }
                     }
                 }
@@ -218,7 +220,7 @@ public class RoundRobin
     public void printTimeChart(ArrayList<Task> tasksChart, int run)
     {
         System.out.println("\n############################################################");
-        System.out.println("############ RR Time Chart for run " + run + " #####################");
+        System.out.println("############ HPF Preemptive Time Chart for run " + run + " #####################");
         System.out.println("############################################################");
         new GanttChart(tasksChart);
     }
@@ -230,7 +232,7 @@ public class RoundRobin
     public void printFinalBenchmark()
     {
         System.out.println("\n#######################################################################################");
-        System.out.println("############ Final calculated averages and calculated throughput for RR #############");
+        System.out.println("############ Final calculated averages and calculated throughput for HPF Preemptive #############");
         System.out.println("#######################################################################################");
         System.out.println("Average Turnaround Time = " + finalTurnaroundTime/finalTasksDone);
         System.out.println("Average Wait Time = " + finalWaitTime/finalTasksDone);

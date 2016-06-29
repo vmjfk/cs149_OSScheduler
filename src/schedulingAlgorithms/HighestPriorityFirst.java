@@ -25,7 +25,8 @@ public class HighestPriorityFirst
         this.finalWaitTime = 0.0f;
         this.finalResponseTime = 0.0f;
     }
-    
+
+
     /**
      * Highest Priority First (non-preemptive)
      */
@@ -54,7 +55,7 @@ public class HighestPriorityFirst
             {
                 public int compare(Task t1, Task t2)
                 {
-                    int difference = t1.comparePriority(t2.getPriority()); 
+                    int difference = t1.comparePriority(t2.getPriority());
                     if (difference == 0)
                     {
                         return (t1.compareArrivalTime(t2.getArrivalTime()));

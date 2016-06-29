@@ -45,7 +45,7 @@ public class ProcessSchedulingSimulator {
                 	new HighestPriorityFirst(processQueue).runNonPreemptive();
                 	break;
                 case 6:
-                	new HighestPriorityFirst(processQueue).runPreemptive();
+                	new HighestPriorityFirst_preemptive(processQueue).runPreemptive();
                 	break;
                 default:
                 	option = 7;
