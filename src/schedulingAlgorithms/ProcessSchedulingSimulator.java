@@ -13,7 +13,7 @@ public class ProcessSchedulingSimulator {
     private final static int RUNTIME_MAX = 10;
     private final static int PRIORITY_MAX = 4;
     private final static int NUM_OF_TASKS = 100;
-
+    private final static int NUM_OF_TEST_TYPES = 6;
     /**
      * The main method. The entry point for the application.
      * 
@@ -22,10 +22,52 @@ public class ProcessSchedulingSimulator {
     public static void main(String[] args) {
         ProcessSchedulingSimulator pss = new ProcessSchedulingSimulator();
         Scanner input = new Scanner(System.in);
-        int option = 1;
-        while(option >= 1 && option <= 6) {
+        /* added by John Kennedy 28jun16
+         * modifying the main() to allow for batch interaction. 
+        */
+        int option = 1;                // has to be initialized to something...
+        boolean is_batch = false;       // assume interactive 
+        if(args.length > 0)
+        {
+            // there must be an argument on the command line.
+            try 
+            {
+                option = Integer.parseInt(args[0]);
+                if(option > NUM_OF_TEST_TYPES)
+                {
+                    System.err.println("Option " + String.valueOf(option) + " not available");
+                }
+                
+                // if we got this far, it must be batch 
+                is_batch = true; 
+            }
+            catch(NumberFormatException e)
+            {
+                // not a number on the command line. Die. 
+                System.err.println("Input error on command line " + args[0] + "not a number");
+                return; 
+                
+            }
+           
+            
+        }
+        
+        if(!is_batch)
+        {
+            while(option >= 1 && option <= 6)
+            {
+                runSim(pss,option);
+                option = input.nextInt();
+            }
+        }else {
+            runSim(pss,option);
+            
+        }
+         
+    }
+    
+    private static void runSim(ProcessSchedulingSimulator pss, int option) {
             pss.printMenuOptions();
-            option = input.nextInt();
             ProcessQueue processQueue = new ProcessQueue(QUANTA_MAX, RUNTIME_MAX, PRIORITY_MAX, NUM_OF_TASKS);
             switch(option) 
             {
@@ -48,13 +90,11 @@ public class ProcessSchedulingSimulator {
                 	new HighestPriorityFirst(processQueue).runPreemptive();
                 	break;
                 default:
-                	option = 7;
+
                 	break;
             }
         }
-        input.close();
-    }
-    
+      
     /**
      * A helper method which prints out a console-based
      * user-interface.
